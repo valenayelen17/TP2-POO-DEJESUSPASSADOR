@@ -87,7 +87,7 @@ public class Cliente extends Usuario {
         this.cuenta = cuenta;
     }
 
-	public void registrarUsuario() {
+	public void registrarCliente() {
         String nombre = JOptionPane.showInputDialog("Ingrese su nombre:");
         setNombre(nombre);
 

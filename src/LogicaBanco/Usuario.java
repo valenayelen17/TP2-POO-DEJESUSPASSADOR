@@ -10,13 +10,15 @@ public class Usuario {
 	
     private String email;
     private String contrasenia;
+    private String rol;
 
     public Usuario() {
     }
     
-    public Usuario(String email, String contrasenia) {
+    public Usuario(String email, String contrasenia, String rol) {
         this.email = email;
         this.contrasenia = contrasenia;
+        this.rol = rol;
     }
     
     public static LinkedList<Usuario> getUsuarios() {

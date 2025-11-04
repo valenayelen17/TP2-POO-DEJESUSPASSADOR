@@ -26,12 +26,12 @@ public class Main {
 			switch (opcion) {
 				case 0:
 					Cliente nuevoCliente = new Cliente();
-					nuevoCliente.registrarUsuario();
+					nuevoCliente.registrarCliente();
 					break;
 					
 				case 1:
 					Usuario usuario = Usuario.iniciarSesion();
-					if (usuario != null && usuario instanceof Cliente) {
+					if (usuario != null) {
 						menuCuenta((Cliente) usuario);
 					}
 					continuar = false;
