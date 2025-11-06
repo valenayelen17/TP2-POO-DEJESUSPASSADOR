@@ -2,15 +2,22 @@ package LogicaBanco;
 
 public enum Rol {
 	Cliente (new String[] {"Ingresar dinero", "Transferir dinero", "Pedir préstamo", "Salir"})
-	, Empleado (new String[] {
-			
-	});
+	, Empleado (new String[] {"Ver movimientos generales", "Eliminar cuenta", "Salir"});
 	
-	private String [] opciones;
+	private String[] opciones;
 
 	
-	
+	public String[] getOpciones() {
+		return opciones;
+	}
+
+	public void setOpciones(String[] opciones) {
+		this.opciones = opciones;
+	}
+
 	private Rol(String[] opciones) {
 		this.opciones = opciones;
 	}
+	
+	
 }

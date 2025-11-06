@@ -4,25 +4,29 @@ import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-public class Usuario {
+public abstract class Usuario {
 	
 	private static LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
 	
     private String email;
     private String contrasenia;
-    private String rol;
-
-    public Usuario() {
-    }
+    private Rol rol;
     
-    public Usuario(String email, String contrasenia, String rol) {
+    public Rol getRol() {
+		return rol;
+	}
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+	
+	public Usuario () {}
+	
+    
+    public Usuario(String email, String contrasenia, Rol rol) {
+    	super();
         this.email = email;
         this.contrasenia = contrasenia;
         this.rol = rol;
-    }
-    
-    public static LinkedList<Usuario> getUsuarios() {
-        return usuarios;
     }
 
     public String getEmail() {
@@ -40,6 +44,19 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+    
+    public static LinkedList<Usuario> getUsuarios() {
+		return usuarios;
+	}
+    
+    public static void setUsuarios(LinkedList<Usuario> usuarios) {
+		Usuario.usuarios = usuarios;
+	}
+	@Override
+	public String toString() {
+		return "Usuario [mail=" + email + ", contr=" + contrasenia + "]";
+	}
+	
 
     public static Usuario iniciarSesion() {
         if (usuarios.isEmpty()) {
@@ -85,4 +102,6 @@ public class Usuario {
         usuarios.add(usuario2);
 
     }
+    
+    public abstract void menu();
 }

@@ -13,12 +13,14 @@ public class Cliente extends Usuario {
 	private String telefono;
 	private String domicilio;
 	private Cuenta cuenta;
+	private Rol rol;
+	private int pin;
 	
 	public Cliente() {
 		super();
 	}
 	
-	public Cliente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String domicilio) {
+	public Cliente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String domicilio, Rol rol) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -26,6 +28,7 @@ public class Cliente extends Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 		this.telefono = telefono;
 		this.domicilio = domicilio;
+		this.rol = rol;
 	}
 	
 	public String getNombre() {
@@ -132,4 +135,38 @@ public class Cliente extends Usuario {
         Usuario.getUsuarios().add(this);
         JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
     }
+
+	public void menu() {
+		boolean continuar = true;
+		
+		while (continuar) {
+			double saldo = this.getCuenta().getSaldo();
+			
+			int opcion = JOptionPane.showOptionDialog(null, "Menu cliente", "", 0, 0, null, this.getRol().getOpciones(), this.getRol().getOpciones());
+			
+			switch (opcion) {
+				case 0:
+					// Ingresar dinero
+					break;
+					
+				case 1:
+					// Transferir dinero
+					break;
+					
+				case 2:
+					// Pedir préstamo
+					break;
+					
+				case 3:
+					continuar = false;
+					break;
+			}
+		}
+	
+	}
+	
+	
+	
+	
+	
 }
