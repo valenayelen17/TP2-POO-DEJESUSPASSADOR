@@ -13,14 +13,14 @@ public class Cliente extends Usuario {
 	private String telefono;
 	private String domicilio;
 	private Cuenta cuenta;
-	private Rol rol;
 	private int pin;
 	
 	public Cliente() {
 		super();
+		this.setRol(Rol.Cliente);
 	}
 	
-	public Cliente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String domicilio, Rol rol) {
+	public Cliente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String domicilio) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -28,7 +28,8 @@ public class Cliente extends Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 		this.telefono = telefono;
 		this.domicilio = domicilio;
-		this.rol = rol;
+		this.setRol(Rol.Cliente);
+		this.cuenta = new Cuenta(this,1000);
 	}
 	
 	public String getNombre() {
@@ -142,22 +143,40 @@ public class Cliente extends Usuario {
 		while (continuar) {
 			double saldo = this.getCuenta().getSaldo();
 			
-			int opcion = JOptionPane.showOptionDialog(null, "Menu cliente", "", 0, 0, null, this.getRol().getOpciones(), this.getRol().getOpciones());
+			int opcion = JOptionPane.showOptionDialog(
+					null, 
+					"Hola " + this.getNombre() + "\n" +
+					"Saldo actual: $" + saldo + "\n\n" +
+					"Seleccione una opción:",
+					"Menu cliente",
+					0,
+					0,
+					null,
+					this.getRol().getOpciones(),
+					this.getRol().getOpciones());
 			
 			switch (opcion) {
 				case 0:
 					// Ingresar dinero
+					
 					break;
 					
 				case 1:
 					// Transferir dinero
+					JOptionPane.showInputDialog("Ingrese el número de cuenta a transferir");
+					
 					break;
 					
 				case 2:
 					// Pedir préstamo
 					break;
-					
 				case 3:
+					// Ver movimientos
+					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientos());
+					
+					break;
+					
+				case 4:
 					continuar = false;
 					break;
 			}

@@ -7,8 +7,41 @@ import javax.swing.JOptionPane;
 public class Empleado extends Usuario{
 	
 	private String sector;
+	private String nombre;
+	private String Apellido;
 	
-	private static LinkedList<Movimiento> MovimientosGen = new LinkedList<Movimiento>();
+	private LinkedList<Movimiento> MovimientosGen = new LinkedList<Movimiento>();
+	
+	
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return Apellido;
+	}
+
+	public void setApellido(String apellido) {
+		Apellido = apellido;
+	}
+
+	
+	public LinkedList<Movimiento> getMovimientosGen() {
+		return MovimientosGen;
+	}
+
+	public void setMovimientosGen(LinkedList<Movimiento> movimientosGen) {
+		MovimientosGen = movimientosGen;
+	}
+
+	public Empleado() {
+		super();
+	}
 	
 	public Empleado(String email, String contrasenia, String sector) {
 			super(email, contrasenia, Rol.Empleado);
@@ -17,7 +50,36 @@ public class Empleado extends Usuario{
 
 	@Override
 	public void menu() {
-		// TODO Auto-generated method stub
+		boolean continuar = true;
+		
+		while (continuar) {
+			
+			int opcion = JOptionPane.showOptionDialog(
+					null, 
+					"Hola " + this.getNombre() + "\n" +
+					"Seleccione una opción:",
+					"Menu empleado",
+					0,
+					0,
+					null,
+					this.getRol().getOpciones(),
+					this.getRol().getOpciones());
+			
+			switch (opcion) {
+				case 0:
+					JOptionPane.showMessageDialog(null, this.getMovimientosGen());
+					break;
+					
+				case 1:
+					// Eliminar cuenta
+					break;
+					
+				case 2:
+					continuar = false;
+					break;
+			}
+		}
+	
 		
 	}
 

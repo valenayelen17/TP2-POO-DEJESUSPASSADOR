@@ -2,6 +2,7 @@ package LogicaBanco;
 
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public abstract class Usuario {
@@ -79,26 +80,28 @@ public abstract class Usuario {
     }
     
     public static void agregarUsuariosPrueba() {
-        Cliente usuario1 = new Cliente();
-        usuario1.setNombre("Juan");
-        usuario1.setApellido("Carlos");
-        usuario1.setDni("12345678");
-        usuario1.setFechaNacimiento(LocalDate.of(1990, 5, 15));
-        usuario1.setTelefono("1234567890");
-        usuario1.setDomicilio("Av. Principal 123");
-        usuario1.setEmail("juan@prueba.com");
-        usuario1.setContrasenia("1234");
-        usuarios.add(usuario1);
+    	
+  
+			 
+    	Cliente usuario1 = new Cliente();
+		usuario1.setNombre("Juan");
+		usuario1.setApellido("Carlos");
+		usuario1.setDni("12345678");
+		usuario1.setFechaNacimiento(LocalDate.of(1990, 5, 15));
+		usuario1.setTelefono("1234567890");
+		usuario1.setDomicilio("Av. Principal 123");
+		usuario1.setEmail("juan@prueba.com");
+		usuario1.setContrasenia("1234");
+		        usuario1.setRol(Rol.Cliente);
+		        usuarios.add(usuario1);
+
         
-        Cliente usuario2 = new Cliente();
+        Empleado usuario2 = new Empleado();
         usuario2.setNombre("María");
         usuario2.setApellido("García");
-        usuario2.setDni("87654321");
-        usuario2.setFechaNacimiento(LocalDate.of(1985, 8, 20));
-        usuario2.setTelefono("0987654321");
-        usuario2.setDomicilio("Calle Secundaria 456");
         usuario2.setEmail("maria@prueba.com");
         usuario2.setContrasenia("abcd");
+        usuario2.setRol(Rol.Empleado);
         usuarios.add(usuario2);
 
     }

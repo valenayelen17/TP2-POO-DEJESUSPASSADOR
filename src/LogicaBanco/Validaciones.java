@@ -16,7 +16,7 @@ public abstract class Validaciones {
 		return dato;
 	}
 	public static int ValidarInt(String mensaje) {
-		String dato ="Gamaliel";
+		String dato ="";
 		
 		boolean flag ;
 		do {
@@ -27,9 +27,7 @@ public abstract class Validaciones {
 				JOptionPane.showMessageDialog(null, "Error");
 				flag = false;
 			}else {
-				//recorro letra por letra de dato
 				for (int i = 0; i < dato.length(); i++) {
-					//si la letra no es un digito
 					if (!Character.isDigit(dato.charAt(i)) && dato.charAt(0) != '-') {
 						JOptionPane.showMessageDialog(null, "No puede ser un dato no numerico");
 						flag = false;

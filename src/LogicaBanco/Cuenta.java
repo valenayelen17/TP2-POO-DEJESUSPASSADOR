@@ -2,6 +2,8 @@ package LogicaBanco;
 
 import java.util.LinkedList;
 
+import javax.swing.JOptionPane;
+
 public class Cuenta {
 	private static LinkedList<Cuenta> cuentas = new LinkedList<Cuenta>();
 	private double saldo;
@@ -14,6 +16,14 @@ public class Cuenta {
 		num++;
 		this.cliente = cliente;
 		this.saldo = 0.0;
+		this.numCuenta = num;
+		this.movimientos = new LinkedList<Movimiento>();
+		cuentas.add(this);
+	}
+	public Cuenta(Cliente cliente, int maximo) {
+		num++;
+		this.cliente = cliente;
+		this.saldo = Math.random()*maximo+100;
 		this.numCuenta = num;
 		this.movimientos = new LinkedList<Movimiento>();
 		cuentas.add(this);
@@ -46,4 +56,11 @@ public class Cuenta {
 	public void Retirar(Cliente cliente, int monto) {
 		
 	}
+
+	@Override
+	public String toString() {
+		return "Cuenta [saldo=" + saldo + ", numCuenta=" + numCuenta + ", cliente=" + cliente + ", movimientos="
+				+ movimientos + "]";
+	}
+	
 }
