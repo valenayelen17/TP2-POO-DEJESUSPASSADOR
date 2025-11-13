@@ -26,4 +26,10 @@ public class Movimiento {
 	public double getMonto() {
 		return monto;
 	}
+
+	@Override
+	public String toString() {
+		return "Movimiento [cuenta=" + cuenta + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + "]";
+	}
+	
 }

@@ -70,7 +70,7 @@ public abstract class Usuario {
 
         for (Usuario u : usuarios) {
             if (u.getEmail().equalsIgnoreCase(emailIngresado) && u.getContrasenia().equals(contraseniaIngresada)) {
-                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso Bienvenido, " + ((Cliente)u).getNombre() + "!");
+            	JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. Bienvenido/a !");
                 return u;
             }
         }
@@ -92,8 +92,8 @@ public abstract class Usuario {
 		usuario1.setDomicilio("Av. Principal 123");
 		usuario1.setEmail("juan@prueba.com");
 		usuario1.setContrasenia("1234");
-		        usuario1.setRol(Rol.Cliente);
-		        usuarios.add(usuario1);
+		usuario1.setRol(Rol.Cliente);
+		usuarios.add(usuario1);
 
         
         Empleado usuario2 = new Empleado();

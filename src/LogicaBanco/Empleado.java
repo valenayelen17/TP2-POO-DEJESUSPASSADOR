@@ -1,5 +1,6 @@
 package LogicaBanco;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -9,7 +10,7 @@ public class Empleado extends Usuario{
 	private String sector;
 	private String nombre;
 	private String Apellido;
-	
+	private LinkedList<Cliente> clientes = new LinkedList<Cliente>();
 	private LinkedList<Movimiento> MovimientosGen = new LinkedList<Movimiento>();
 	
 	
@@ -71,10 +72,19 @@ public class Empleado extends Usuario{
 					break;
 					
 				case 1:
-					// Eliminar cuenta
+					
+					clientes = new LinkedList<Cliente>();
+					for(Usuario usuario : Usuario.getUsuarios()) {
+						if (usuario.getRol()== Rol.Cliente) {
+							clientes.add((Cliente)usuario);
+						}
+					}
 					break;
 					
 				case 2:
+					continuar = false;
+					break;
+				case 3:
 					continuar = false;
 					break;
 			}
