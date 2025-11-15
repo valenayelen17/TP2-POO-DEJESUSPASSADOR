@@ -9,12 +9,23 @@ public class Empleado extends Usuario{
 	
 	private String sector;
 	private String nombre;
-	private String Apellido;
+	private String apellido;
 	private LinkedList<Cliente> clientes = new LinkedList<Cliente>();
-	private LinkedList<Movimiento> MovimientosGen = new LinkedList<Movimiento>();
+	private LinkedList<Movimiento> movimientosGenerales = new LinkedList<>();
 	
+	public Empleado() {
+		super();
+		this.setRol(Rol.Empleado);
+	}
 	
+	public Empleado(String nombre, String apellido, String email, String contrasenia) {
+			super(email, contrasenia, Rol.Empleado);
+			this.nombre = nombre;
+			this.apellido = apellido;
+			this.clientes = new LinkedList<>();
+		}
 	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -24,30 +35,20 @@ public class Empleado extends Usuario{
 	}
 
 	public String getApellido() {
-		return Apellido;
+		return apellido;
 	}
 
 	public void setApellido(String apellido) {
-		Apellido = apellido;
-	}
-
-	
-	public LinkedList<Movimiento> getMovimientosGen() {
-		return MovimientosGen;
-	}
-
-	public void setMovimientosGen(LinkedList<Movimiento> movimientosGen) {
-		MovimientosGen = movimientosGen;
-	}
-
-	public Empleado() {
-		super();
+		this.apellido = apellido;
 	}
 	
-	public Empleado(String email, String contrasenia, String sector) {
-			super(email, contrasenia, Rol.Empleado);
-			this.sector = sector;
-		}
+	 public LinkedList<Movimiento> getMovimientosGenerales() { 
+		 return movimientosGenerales; 
+	}
+	 public void setMovimientosGenerales(LinkedList<Movimiento> movimientosGenerales) {
+		   this.movimientosGenerales = movimientosGenerales; 
+	}
+
 
 	@Override
 	public void menu() {
@@ -63,14 +64,17 @@ public class Empleado extends Usuario{
 					0,
 					0,
 					null,
-					this.getRol().getOpciones(),
-					this.getRol().getOpciones());
+					getRol().getOpciones(),
+					getRol().getOpciones());
 			
 			switch (opcion) {
 				case 0:
-					JOptionPane.showMessageDialog(null, this.getMovimientosGen());
-					break;
-					
+					 movimientosGenerales.clear();
+	                    for (Cuenta c : Cuenta.getCuentas()) {
+	                        movimientosGenerales.addAll(c.getMovimientos());
+	                    }
+	                    JOptionPane.showMessageDialog(null, movimientosGenerales);
+	                    break;
 				case 1:
 					
 					clientes = new LinkedList<Cliente>();
@@ -79,13 +83,22 @@ public class Empleado extends Usuario{
 							clientes.add((Cliente)usuario);
 						}
 					}
+					JOptionPane.showMessageDialog(null, clientes);
 					break;
 					
 				case 2:
-					continuar = false;
+					 int numEliminar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese número de cuenta a eliminar:"));
+	                    Cuenta eliminar = Cuenta.getCuentas().stream()
+	                            .filter(c -> c.getNumCuenta() == numEliminar)
+	                            .findFirst().orElse(null);
+	                    if (eliminar != null) {
+	                        Cuenta.getCuentas().remove(eliminar);
+	                        JOptionPane.showMessageDialog(null, "Cuenta eliminada.");
+	                    } else {
+	                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
+	                    }
 					break;
 				case 3:
-					continuar = false;
 					break;
 			}
 		}

@@ -2,6 +2,7 @@ package Banco;
 
 import LogicaBanco.Usuario;
 import LogicaBanco.Cliente;
+import LogicaBanco.Cuenta;
 import LogicaBanco.Empleado;
 import LogicaBanco.Rol;
 

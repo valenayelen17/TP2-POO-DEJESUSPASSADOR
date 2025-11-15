@@ -13,13 +13,6 @@ public abstract class Usuario {
     private String contrasenia;
     private Rol rol;
     
-    public Rol getRol() {
-		return rol;
-	}
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-	
 	public Usuario () {}
 	
     
@@ -29,6 +22,12 @@ public abstract class Usuario {
         this.contrasenia = contrasenia;
         this.rol = rol;
     }
+    public Rol getRol() {
+		return rol;
+	}
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
 
     public String getEmail() {
         return email;

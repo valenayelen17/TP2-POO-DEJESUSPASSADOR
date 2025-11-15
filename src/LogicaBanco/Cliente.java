@@ -152,24 +152,34 @@ public class Cliente extends Usuario {
 					0,
 					0,
 					null,
-					this.getRol().getOpciones(),
-					this.getRol().getOpciones());
+					getRol().getOpciones(),
+					getRol().getOpciones());
 			
 			switch (opcion) {
 				case 0:
 					// Ingresar dinero
-					
-					break;
-					
+					 double montoDeposito = Double.parseDouble(JOptionPane.showInputDialog("Ingrese monto a depositar:"));
+	                    cuenta.depositar(montoDeposito);
+	                    break;
 				case 1:
 					// Transferir dinero
-					JOptionPane.showInputDialog("Ingrese el número de cuenta a transferir");
-					
-					break;
-					
+					 int numDestino = Integer.parseInt(JOptionPane.showInputDialog("Ingrese número de cuenta destino:"));
+	                    Cuenta destino = Cuenta.getCuentas().stream()
+	                            .filter(c -> c.getNumCuenta() == numDestino)
+	                            .findFirst().orElse(null);
+	                    if (destino != null) {
+	                        double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese monto a transferir:"));
+	                        if (!cuenta.transferir(destino, monto)) {
+	                            JOptionPane.showMessageDialog(null, "Saldo insuficiente");
+	                        }
+	                    } else {
+	                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada");
+	                    }
+	                    break;
 				case 2:
 					// Pedir préstamo
-					break;
+					JOptionPane.showMessageDialog(null, "Función de préstamo no implementada.");
+                    break;
 				case 3:
 					// Ver movimientos
 					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientos());
@@ -183,9 +193,5 @@ public class Cliente extends Usuario {
 		}
 	
 	}
-	
-	
-	
-	
 	
 }

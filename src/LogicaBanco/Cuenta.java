@@ -45,6 +45,7 @@ public class Cuenta {
 		this.cliente = cliente;
 	}
 	
+	
 	public LinkedList<Movimiento> getMovimientos() {
 		return movimientos;
 	}
@@ -53,10 +54,37 @@ public class Cuenta {
 		this.movimientos = movimientos;
 	}
 	
-	public void Retirar(Cliente cliente, int monto) {
-		
+	public int getNumCuenta() {
+		return numCuenta;
+	}
+	
+	public static LinkedList<Cuenta> getCuentas() {
+		return cuentas;
 	}
 
+	public void depositar(double monto) {
+		this.saldo += monto;
+		new Movimiento(this, monto, "Depósito");
+	}
+	
+	public boolean retirar(double monto) {
+		if (saldo >= monto) {
+			saldo -= monto;
+			new Movimiento(this, monto, "Retiro");
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean transferir(Cuenta destino, double monto) {
+		if(retirar(monto)) {
+			destino.depositar(monto);
+			new Movimiento(this, monto, "Transferencia enviada");
+			new Movimiento(destino, monto, "Transferencia recibida");
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public String toString() {
 		return "Cuenta [saldo=" + saldo + ", numCuenta=" + numCuenta + ", cliente=" + cliente + ", movimientos="
