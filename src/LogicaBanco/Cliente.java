@@ -168,12 +168,19 @@ public class Cliente extends Usuario {
 	                            .filter(c -> c.getNumCuenta() == numDestino)
 	                            .findFirst().orElse(null);
 	                    if (destino != null) {
+	                    	
 	                        double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese monto a transferir:"));
-	                        if (!cuenta.transferir(destino, monto)) {
+	                        if (cuenta.getSaldo() <  monto) {
 	                            JOptionPane.showMessageDialog(null, "Saldo insuficiente");
+	                        } else {
+	                        	
+	                        	cuenta.transferir(destino, monto);
+	                        	JOptionPane.showMessageDialog(null, "Transferencia enviada");
+	                        	break;
 	                        }
 	                    } else {
 	                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada");
+	                        break;
 	                    }
 	                    break;
 				case 2:
@@ -182,7 +189,7 @@ public class Cliente extends Usuario {
                     break;
 				case 3:
 					// Ver movimientos
-					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientos());
+					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientosString());
 					
 					break;
 					

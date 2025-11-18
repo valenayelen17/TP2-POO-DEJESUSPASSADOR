@@ -1,6 +1,7 @@
 package LogicaBanco;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -45,10 +46,17 @@ public class Cuenta {
 		this.cliente = cliente;
 	}
 	
-	
 	public LinkedList<Movimiento> getMovimientos() {
-		return movimientos;
+
+		return this.movimientos;
 	}
+	
+	public String getMovimientosString() {
+	    return this.movimientos.stream()
+	            .map(Movimiento::toString)
+	            .collect(Collectors.joining("\n"));
+	}
+
 	
 	public void setMovimientos(LinkedList<Movimiento> movimientos) {
 		this.movimientos = movimientos;
@@ -64,13 +72,17 @@ public class Cuenta {
 
 	public void depositar(double monto) {
 		this.saldo += monto;
-		new Movimiento(this, monto, "Depósito");
+		Movimiento deposito = new Movimiento(this, monto, "Depósito");
+		this.movimientos.add(deposito);
+		
 	}
 	
 	public boolean retirar(double monto) {
 		if (saldo >= monto) {
 			saldo -= monto;
-			new Movimiento(this, monto, "Retiro");
+			Movimiento retiro = new Movimiento(this, monto, "Retiro");
+			this.movimientos.add(retiro);
+			
 			return true;
 		}
 		return false;
@@ -79,12 +91,18 @@ public class Cuenta {
 	public boolean transferir(Cuenta destino, double monto) {
 		if(retirar(monto)) {
 			destino.depositar(monto);
-			new Movimiento(this, monto, "Transferencia enviada");
-			new Movimiento(destino, monto, "Transferencia recibida");
+			// modificar directamente el monto;
+			Movimiento envio = new Movimiento(this, monto, "Transferencia enviada");
+			Movimiento recibo =new Movimiento(destino, monto, "Transferencia recibida");
+			
+			this.movimientos.add(envio);
+			this.movimientos.add(recibo);
+			
 			return true;
 		}
 		return false;
 	}
+	
 	@Override
 	public String toString() {
 		return "Cuenta [saldo=" + saldo + ", numCuenta=" + numCuenta + ", cliente=" + cliente + ", movimientos="

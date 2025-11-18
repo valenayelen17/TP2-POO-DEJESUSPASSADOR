@@ -80,8 +80,7 @@ public abstract class Usuario {
     
     public static void agregarUsuariosPrueba() {
     	
-  
-			 
+ 
     	Cliente usuario1 = new Cliente();
 		usuario1.setNombre("Juan");
 		usuario1.setApellido("Carlos");

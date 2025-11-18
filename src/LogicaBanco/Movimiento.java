@@ -18,8 +18,14 @@ public class Movimiento {
 		
 	}
 	
-	public LocalDateTime getfecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
+	}
+	
+	public String getFechaString() {
+		
+		return "DD/MM/AAAA HH:mm";
+		
 	}
 	
 	public void setFecha(LocalDateTime fecha) {
@@ -44,7 +50,7 @@ public class Movimiento {
 
 	@Override
 	public String toString() {
-		return "Movimiento [cuenta=" + cuenta + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + "]";
+		return "Movimiento [cuenta=" + cuenta.getNumCuenta()  + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + "]";
 	}
 	
 }
