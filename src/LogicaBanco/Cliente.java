@@ -174,8 +174,8 @@ public class Cliente extends Usuario {
 	                            JOptionPane.showMessageDialog(null, "Saldo insuficiente");
 	                        } else {
 	                        	
-	                        	cuenta.transferir(destino, monto);
-	                        	JOptionPane.showMessageDialog(null, "Transferencia enviada");
+	                        	String mensajeTransferencia = cuenta.transferir(destino, monto);
+	                        	JOptionPane.showMessageDialog(null, mensajeTransferencia);
 	                        	break;
 	                        }
 	                    } else {

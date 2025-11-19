@@ -93,31 +93,65 @@ public class Cuenta {
 		
 	}
 	
-	public boolean retirar(double monto) {
-		if (saldo >= monto) {
-			saldo -= monto;
-			Movimiento retiro = new Movimiento(this, monto, "Retiro");
-			this.movimientos.add(retiro);
-			
-			return true;
-		}
-		return false;
-	}
+	public String retirar(double monto) {
+		String mensaje;
+        if (monto <= 0) {
+            mensaje = "Error: el monto debe ser mayor a 0.";
+        }
+
+        if (saldo < monto) {
+        	mensaje = "Error: saldo insuficiente.\n" +
+                   "Saldo actual: $" + saldo + "\n" +
+                   "Monto solicitado: $" + monto;
+        }
+
+        saldo -= monto;
+        Movimiento retiro = new Movimiento(this, monto, "Retiro");
+        this.movimientos.add(retiro);
+
+        mensaje = "=== Comprobante de retiro ===\n" +
+                             "Cuenta: " + this.numCuenta + "\n" +
+                             "Titular: " + cliente.getNombre() + " " + cliente.getApellido() + "\n" +
+                             "Monto retirado: $" + monto + "\n" +
+                             "Saldo restante: $" + saldo + "\n" +
+                             "Movimiento: " + retiro.toString();
+        
+        return mensaje;
+    }
 	
-	public boolean transferir(Cuenta destino, double monto) {
-		if(retirar(monto)) {
-			destino.depositar(monto);
-			// modificar directamente el monto;
-			Movimiento envio = new Movimiento(this, monto, "Transferencia enviada");
-			Movimiento recibo =new Movimiento(destino, monto, "Transferencia recibida");
-			
-			this.movimientos.add(envio);
-			this.movimientos.add(recibo);
-			
-			return true;
-		}
-		return false;
-	}
+    public String transferir(Cuenta destino, double monto) {
+    	String mensaje;
+
+        if (destino == this) {
+        	mensaje = "Error: no se puede transferir a la misma cuenta.";
+        }
+
+        if (monto <= 0) {
+        	mensaje = "Error: el monto debe ser mayor a 0.";
+        }
+
+        if (this.saldo < monto) {
+        	mensaje = "Error: saldo insuficiente para realizar la transferencia.\n" +
+                   "Saldo actual: $" + this.saldo + "\n" +
+                   "Monto a transferir: $" + monto;
+        }
+
+        this.saldo -= monto;
+        Movimiento envio = new Movimiento(this, monto, "Transferencia enviada a cuenta " + destino.getNumCuenta());
+        this.movimientos.add(envio);
+
+        destino.saldo += monto;
+        Movimiento recibo = new Movimiento(destino, monto, "Transferencia recibida de cuenta " + this.getNumCuenta());
+        destino.movimientos.add(recibo);
+
+        mensaje = "=== Comprobante de transferencia ===\n" +
+                             "Cuenta origen: " + this.getNumCuenta() + " - " + this.cliente.getNombre() + " " + this.cliente.getApellido() + "\n" +
+                             "Cuenta destino: " + destino.getNumCuenta() + " - " + destino.getCliente().getNombre() + " " + destino.getCliente().getApellido() + "\n" +
+                             "Monto transferido: $" + monto + "\n" +
+                             "Saldo cuenta origen luego de la operación: $" + this.saldo + "\n";
+        
+        return mensaje;
+    }
 	
 	@Override
 	public String toString() {
