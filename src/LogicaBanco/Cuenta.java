@@ -52,12 +52,16 @@ public class Cuenta {
 	}
 	
 	public String getMovimientosString() {
-	    return this.movimientos.stream()
-	            .map(Movimiento::toString)
-	            .collect(Collectors.joining("\n"));
+		if (this.movimientos == null || this.movimientos.isEmpty()) {
+			return "No hay movimientos";
+		}
+
+		return "=== Movimientos ===\n" +
+			movimientos.stream()
+				.map(Movimiento::toString)
+				.collect(Collectors.joining("\n-----------------------\n"));
 	}
 
-	
 	public void setMovimientos(LinkedList<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
@@ -68,6 +72,18 @@ public class Cuenta {
 	
 	public static LinkedList<Cuenta> getCuentas() {
 		return cuentas;
+	}
+
+	public static String getCuentasString() {
+
+		if(cuentas == null || cuentas.isEmpty()) {
+			return "No hay cuentas registradas.";
+		}
+
+		return "=== Cuentas ===\n" +
+			cuentas.stream()
+				.map(Cuenta::toString)
+				.collect(Collectors.joining("\n-----------------------\n"));
 	}
 
 	public void depositar(double monto) {

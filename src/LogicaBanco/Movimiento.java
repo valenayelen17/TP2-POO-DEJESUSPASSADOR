@@ -50,7 +50,12 @@ public class Movimiento {
 
 	@Override
 	public String toString() {
-		return "Movimiento [cuenta=" + cuenta.getNumCuenta()  + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + "]";
+		return "Movimiento:\n" +
+			"  Cuenta: " + cuenta.getNumCuenta() + "\n" +
+			"  Fecha: " + getFechaString() + "\n" +
+			"  Monto: $" + String.format("%.2f", monto) + "\n" +
+			"  Tipo: " + tipo + "\n";
 	}
+
 	
 }

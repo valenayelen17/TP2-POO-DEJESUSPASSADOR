@@ -52,6 +52,7 @@ public abstract class Usuario {
     public static void setUsuarios(LinkedList<Usuario> usuarios) {
 		Usuario.usuarios = usuarios;
 	}
+    
 	@Override
 	public String toString() {
 		return "Usuario [mail=" + email + ", contr=" + contrasenia + "]";
@@ -84,13 +85,14 @@ public abstract class Usuario {
     	Cliente usuario1 = new Cliente();
 		usuario1.setNombre("Juan");
 		usuario1.setApellido("Carlos");
-		usuario1.setDni("12345678");
+		usuario1.setDni(12345678);
 		usuario1.setFechaNacimiento(LocalDate.of(1990, 5, 15));
 		usuario1.setTelefono("1234567890");
 		usuario1.setDomicilio("Av. Principal 123");
 		usuario1.setEmail("juan@prueba.com");
 		usuario1.setContrasenia("1234");
 		usuario1.setRol(Rol.Cliente);
+        usuario1.setCuenta(new Cuenta(usuario1, 1000));
 		usuarios.add(usuario1);
 
         
@@ -101,6 +103,19 @@ public abstract class Usuario {
         usuario2.setContrasenia("abcd");
         usuario2.setRol(Rol.Empleado);
         usuarios.add(usuario2);
+        
+        Cliente usuario3 = new Cliente();
+        usuario3.setNombre("Esteban");
+        usuario3.setApellido("Gimenez");
+        usuario3.setDni(87654321);
+        usuario3.setFechaNacimiento(LocalDate.of(1992, 8, 20));
+        usuario3.setTelefono("0987654321");
+        usuario3.setDomicilio("Calle Secundaria 456");
+        usuario3.setEmail("esteban@prueba.com");
+        usuario3.setContrasenia("12345");
+        usuario3.setRol(Rol.Cliente);
+        usuario3.setCuenta(new Cuenta(usuario3, 1500));
+        usuarios.add(usuario3);
 
     }
     

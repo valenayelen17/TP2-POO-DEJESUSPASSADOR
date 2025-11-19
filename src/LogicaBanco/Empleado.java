@@ -69,14 +69,14 @@ public class Empleado extends Usuario{
 			
 			switch (opcion) {
 				case 0:
-					 movimientosGenerales.clear();
+					// Ver movimientos generales
 	                    for (Cuenta c : Cuenta.getCuentas()) {
 	                        movimientosGenerales.addAll(c.getMovimientos());
 	                    }
 	                    JOptionPane.showMessageDialog(null, movimientosGenerales);
 	                    break;
 				case 1:
-					
+					// Ver clientes
 					clientes = new LinkedList<Cliente>();
 					for(Usuario usuario : Usuario.getUsuarios()) {
 						if (usuario.getRol()== Rol.Cliente) {
@@ -87,7 +87,14 @@ public class Empleado extends Usuario{
 					break;
 					
 				case 2:
-					 int numEliminar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese número de cuenta a eliminar:"));
+					//Ver cuentas
+					JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
+					break;
+				case 3:
+
+					
+					// Eliminar cuenta
+					 int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
 	                    Cuenta eliminar = Cuenta.getCuentas().stream()
 	                            .filter(c -> c.getNumCuenta() == numEliminar)
 	                            .findFirst().orElse(null);
@@ -98,7 +105,10 @@ public class Empleado extends Usuario{
 	                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
 	                    }
 					break;
-				case 3:
+				
+				case 4:
+					// Salir
+					continuar = false;
 					break;
 			}
 		}

@@ -8,7 +8,7 @@ public class Cliente extends Usuario {
 	
 	private String nombre;
 	private String apellido;
-	private String dni;
+	private int dni;
 	private LocalDate fechaNacimiento;
 	private String telefono;
 	private String domicilio;
@@ -20,7 +20,7 @@ public class Cliente extends Usuario {
 		this.setRol(Rol.Cliente);
 	}
 	
-	public Cliente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String domicilio) {
+	public Cliente(String nombre, String apellido, int dni, LocalDate fechaNacimiento, String telefono, String domicilio) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -48,11 +48,11 @@ public class Cliente extends Usuario {
 		this.apellido = apellido;
 	}
 
-	public String getDni() {
+	public int getDni() {
 		return dni;
 	}
 
-	public void setDni(String dni) {
+	public void setDni(int dni) {
 		this.dni = dni;
 	}
 
@@ -92,13 +92,13 @@ public class Cliente extends Usuario {
     }
 
 	public void registrarCliente() {
-        String nombre = JOptionPane.showInputDialog("Ingrese su nombre:");
+        String nombre = Validaciones.ValidarString("Ingrese su nombre:");
         setNombre(nombre);
 
-        String apellido = JOptionPane.showInputDialog("Ingrese su apellido:");
+        String apellido = Validaciones.ValidarString("Ingrese su apellido:");
         setApellido(apellido);
 
-        String dni = JOptionPane.showInputDialog("Ingrese su DNI:");
+        int dni = Validaciones.ValidarInt("Ingrese su DNI:");
         setDni(dni);
 
         String fechaStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy):");
@@ -158,18 +158,18 @@ public class Cliente extends Usuario {
 			switch (opcion) {
 				case 0:
 					// Ingresar dinero
-					 double montoDeposito = Double.parseDouble(JOptionPane.showInputDialog("Ingrese monto a depositar:"));
+					 double montoDeposito = Validaciones.ValidarDouble("Ingrese monto a depositar:");
 	                    cuenta.depositar(montoDeposito);
 	                    break;
 				case 1:
 					// Transferir dinero
-					 int numDestino = Integer.parseInt(JOptionPane.showInputDialog("Ingrese número de cuenta destino:"));
+					 int numDestino = Validaciones.ValidarInt("Ingrese número de cuenta destino:");
 	                    Cuenta destino = Cuenta.getCuentas().stream()
 	                            .filter(c -> c.getNumCuenta() == numDestino)
 	                            .findFirst().orElse(null);
 	                    if (destino != null) {
 	                    	
-	                        double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese monto a transferir:"));
+	                        double monto = Validaciones.ValidarDouble("Ingrese monto a transferir:");
 	                        if (cuenta.getSaldo() <  monto) {
 	                            JOptionPane.showMessageDialog(null, "Saldo insuficiente");
 	                        } else {
