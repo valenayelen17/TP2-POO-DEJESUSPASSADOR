@@ -184,9 +184,22 @@ public class Cliente extends Usuario {
 	                    }
 	                    break;
 				case 2:
-					// Pedir préstamo
-					JOptionPane.showMessageDialog(null, "Función de préstamo no implementada.");
-                    break;
+				    // Pedir préstamo
+					double montoPrestamo = Validaciones.ValidarDouble("Ingrese monto del préstamo:");
+				    if (montoPrestamo <= 0) {
+				        JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.");
+				        break;
+				    }
+
+				    // Crear préstamo
+				    Prestamo prestamo = new Prestamo(this, montoPrestamo);
+				    this.getCuenta().getMovimientos().add(new Movimiento(this.getCuenta(), montoPrestamo, "Préstamo")); // opcional para registro de movimiento inicial
+				    Empleado.agregarPrestamo(prestamo);
+
+				    JOptionPane.showMessageDialog(null, "Solicitud de préstamo enviada. Queda pendiente de aprobación.");
+				    break;
+
+
 				case 3:
 					// Ver movimientos
 					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientosString());
@@ -194,8 +207,18 @@ public class Cliente extends Usuario {
 					break;
 					
 				case 4:
-					continuar = false;
-					break;
+					int confirmar = JOptionPane.showConfirmDialog(
+					        null,
+					        "¿Está seguro que desea cerrar sesión?",
+					        "Confirmar cierre de sesión",
+					        JOptionPane.YES_NO_OPTION
+					    );
+
+					    if (confirmar == JOptionPane.YES_OPTION) {
+					        JOptionPane.showMessageDialog(null, "Sesión cerrada. Volviendo al menú principal.");
+					        continuar = false; // Sale del menú del usuario, vuelve al Main
+					    }
+					    break;
 			}
 		}
 	

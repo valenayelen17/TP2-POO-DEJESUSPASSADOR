@@ -82,4 +82,5 @@ public abstract class Validaciones {
 		} while (flag == false);
 		return email;
 	}
+	
 }

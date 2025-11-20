@@ -34,12 +34,11 @@ public class Main {
 					break;
 					
 				case 1:
-					Usuario usuario = Usuario.iniciarSesion();
-					usuario.menu();
-					
-					continuar = false;
-					break;
-					
+				    Usuario usuario = Usuario.iniciarSesion();
+				    if (usuario != null) {
+				        usuario.menu(); // el usuario cierra sesión aquí, vuelve al menú principal
+				    }
+				    break;
 				case 2:
 					continuar = false;
 					break;

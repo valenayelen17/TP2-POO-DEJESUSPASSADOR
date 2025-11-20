@@ -48,6 +48,68 @@ public class Empleado extends Usuario{
 	 public void setMovimientosGenerales(LinkedList<Movimiento> movimientosGenerales) {
 		   this.movimientosGenerales = movimientosGenerales; 
 	}
+	 
+	 private static LinkedList<Prestamo> prestamosPendientes = new LinkedList<>();
+
+	 public static void agregarPrestamo(Prestamo p) {
+	        prestamosPendientes.add(p);
+	    }
+
+	 public static LinkedList<Prestamo> getPrestamosPendientes() {
+	        return prestamosPendientes;
+	    }
+	 
+	 private void mostrarCuentasConFiltro() {
+
+		    String[] opciones = {
+		            "Ordenar por Nº de Cuenta",
+		            "Ordenar por Cliente (A-Z)",
+		            "Saldo Mayor a Menor",
+		            "Saldo Menor a Mayor"
+		    };
+
+		    int seleccion = JOptionPane.showOptionDialog(
+		            null,
+		            "Seleccione el formato para ver las cuentas:",
+		            "Filtro de cuentas",
+		            0,
+		            JOptionPane.PLAIN_MESSAGE,
+		            null,
+		            opciones,
+		            opciones[0]
+		    );
+
+		    LinkedList<Cuenta> lista = new LinkedList<>(Cuenta.getCuentas());
+
+		    switch (seleccion) {
+		        case 0:
+		            lista.sort((a, b) -> a.getNumCuenta() - b.getNumCuenta());
+		            break;
+
+		        case 1:
+		            lista.sort((a, b) ->
+		                    a.getCliente().getNombre().compareToIgnoreCase(b.getCliente().getNombre()));
+		            break;
+
+		        case 2:
+		            lista.sort((a, b) ->
+		                    Double.compare(b.getSaldo(), a.getSaldo()));
+		            break;
+
+		        case 3:
+		            lista.sort((a, b) ->
+		                    Double.compare(a.getSaldo(), b.getSaldo()));
+		            break;
+		    }
+
+		    StringBuilder sb = new StringBuilder("LISTA DE CUENTAS:\n\n");
+		    for (Cuenta c : lista) {
+		        sb.append(c.toString()).append("\n");
+		    }
+
+		    JOptionPane.showMessageDialog(null, sb.toString());
+		}
+
 
 
 	@Override
@@ -76,40 +138,89 @@ public class Empleado extends Usuario{
 	                    JOptionPane.showMessageDialog(null, movimientosGenerales);
 	                    break;
 				case 1:
-					// Ver clientes
-					clientes = new LinkedList<Cliente>();
-					for(Usuario usuario : Usuario.getUsuarios()) {
-						if (usuario.getRol()== Rol.Cliente) {
-							clientes.add((Cliente)usuario);
-						}
-					}
-					JOptionPane.showMessageDialog(null, clientes);
+					// Ver cuentas
+					mostrarCuentasConFiltro();
 					break;
 					
 				case 2:
-					//Ver cuentas
+					//Ver usuarios
 					JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
 					break;
 				case 3:
-
-					
-					// Eliminar cuenta
-					 int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
-	                    Cuenta eliminar = Cuenta.getCuentas().stream()
-	                            .filter(c -> c.getNumCuenta() == numEliminar)
-	                            .findFirst().orElse(null);
-	                    if (eliminar != null) {
-	                        Cuenta.getCuentas().remove(eliminar);
-	                        JOptionPane.showMessageDialog(null, "Cuenta eliminada.");
-	                    } else {
-	                        JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
+					 if (prestamosPendientes.isEmpty()) {
+	                        JOptionPane.showMessageDialog(null, "No hay préstamos pendientes.");
+	                        break;
 	                    }
-					break;
-				
+
+	                    StringBuilder sb = new StringBuilder("PRÉSTAMOS PENDIENTES:\n\n");
+	                    int i = 1;
+	                    for (Prestamo p : prestamosPendientes) {
+	                        sb.append(i).append(". ").append(p.toString()).append("\n");
+	                        i++;
+	                    }
+
+	                    JOptionPane.showMessageDialog(null, sb.toString());
+
+	                    int seleccionar = Validaciones.ValidarInt("Ingrese el número del préstamo a aprobar/rechazar (0 para salir):");
+	                    if (seleccionar <= 0 || seleccionar > prestamosPendientes.size()) break;
+
+	                    Prestamo p = prestamosPendientes.get(seleccionar - 1);
+	                    int opcionAprobar = JOptionPane.showConfirmDialog(null, 
+	                        "¿Desea aprobar el préstamo de $" + String.format("%.2f", p.getMonto()) + 
+	                        " para " + p.getCliente().getNombre() + "?", 
+	                        "Aprobar préstamo", JOptionPane.YES_NO_OPTION);
+
+	                    if (opcionAprobar == JOptionPane.YES_OPTION) {
+	                        p.setAprobado(true);
+	                        // acreditar al saldo del cliente
+	                        double nuevoSaldo = p.getCliente().getCuenta().getSaldo() + p.getMonto();
+	                        nuevoSaldo = Math.round(nuevoSaldo * 100.0) / 100.0;
+	                        p.getCliente().getCuenta().setSaldo(nuevoSaldo);
+
+	                        // registrar movimiento en la cuenta del cliente
+	                        Movimiento movimientoPrestamo = new Movimiento(p.getCliente().getCuenta(), p.getMonto(), "Préstamo");
+	                        p.getCliente().getCuenta().getMovimientos().add(movimientoPrestamo);
+
+	                        JOptionPane.showMessageDialog(null, "Préstamo aprobado y acreditado.");
+	                    } else {
+	                        JOptionPane.showMessageDialog(null, "Préstamo rechazado.");
+	                    }
+
+	                    // eliminar de la lista de pendientes
+	                    prestamosPendientes.remove(p);
+	                    break;
 				case 4:
+					// Eliminar cuenta
+					 JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
+
+					    // Ahora sí pedir el número de cuenta
+					    int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
+
+					    Cuenta eliminar = Cuenta.getCuentas().stream()
+					            .filter(c -> c.getNumCuenta() == numEliminar)
+					            .findFirst().orElse(null);
+
+					    if (eliminar != null) {
+					        Cuenta.getCuentas().remove(eliminar);
+					        JOptionPane.showMessageDialog(null, "Cuenta eliminada.");
+					    } else {
+					        JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
+					    }
+					    break;
+				case 5:
 					// Salir
-					continuar = false;
-					break;
+					int confirmar = JOptionPane.showConfirmDialog(
+					        null,
+					        "¿Está seguro que desea cerrar sesión?",
+					        "Confirmar cierre de sesión",
+					        JOptionPane.YES_NO_OPTION
+					    );
+
+					    if (confirmar == JOptionPane.YES_OPTION) {
+					        JOptionPane.showMessageDialog(null, "Sesión cerrada. Volviendo al menú principal.");
+					        continuar = false; // Sale del menú del usuario, vuelve al Main
+					    }
+					    break;
 			}
 		}
 	

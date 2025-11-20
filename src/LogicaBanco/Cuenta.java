@@ -24,7 +24,7 @@ public class Cuenta {
 	public Cuenta(Cliente cliente, int maximo) {
 		num++;
 		this.cliente = cliente;
-		this.saldo = Math.random()*maximo+100;
+		this.saldo = Math.round((Math.random() * maximo + 100) * 100.0) / 100.0;
 		this.numCuenta = num;
 		this.movimientos = new LinkedList<Movimiento>();
 		cuentas.add(this);

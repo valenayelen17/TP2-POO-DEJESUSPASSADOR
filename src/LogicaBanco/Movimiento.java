@@ -2,6 +2,7 @@ package LogicaBanco;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 public class Movimiento {
@@ -9,12 +10,14 @@ public class Movimiento {
 	private LocalDateTime fecha;
 	private double monto;
 	private String tipo;
+	private String estado; 
 	
 	public Movimiento(Cuenta cuenta, double monto, String tipo) {
 		this.cuenta = cuenta;
 		this.fecha = LocalDateTime.now();
 		this.monto = monto;
 		this.tipo = tipo;
+		this.estado = "Pendiente";
 		
 	}
 	
@@ -23,10 +26,10 @@ public class Movimiento {
 	}
 	
 	public String getFechaString() {
-		
-		return "DD/MM/AAAA HH:mm";
-		
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+	    return fecha.format(formatter);
 	}
+
 	
 	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
@@ -47,6 +50,13 @@ public class Movimiento {
 	public void setCuenta(Cuenta cuenta) {
 		this.cuenta = cuenta;
 	}
+	public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
 	@Override
 	public String toString() {
@@ -54,7 +64,7 @@ public class Movimiento {
 			"  Cuenta: " + cuenta.getNumCuenta() + "\n" +
 			"  Fecha: " + getFechaString() + "\n" +
 			"  Monto: $" + String.format("%.2f", monto) + "\n" +
-			"  Tipo: " + tipo + "\n";
+			"  Tipo: " + tipo + "\n" + "  Estado: " + estado + "\n";
 	}
 
 	
