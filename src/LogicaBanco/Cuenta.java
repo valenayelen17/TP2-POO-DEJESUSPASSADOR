@@ -10,6 +10,7 @@ public class Cuenta {
 	private double saldo;
 	private int numCuenta;
 	private static int num = 0;
+	private String alias;
 	private Cliente cliente;
 	private LinkedList<Movimiento> movimientos;
 	
@@ -18,6 +19,7 @@ public class Cuenta {
 		this.cliente = cliente;
 		this.saldo = 0.0;
 		this.numCuenta = num;
+		this.alias = crearAlias();
 		this.movimientos = new LinkedList<Movimiento>();
 		cuentas.add(this);
 	}
@@ -26,6 +28,7 @@ public class Cuenta {
 		this.cliente = cliente;
 		this.saldo = Math.round((Math.random() * maximo + 100) * 100.0) / 100.0;
 		this.numCuenta = num;
+		this.alias = crearAlias();
 		this.movimientos = new LinkedList<Movimiento>();
 		cuentas.add(this);
 	}
@@ -46,6 +49,12 @@ public class Cuenta {
 		this.cliente = cliente;
 	}
 	
+	public String getAlias() {
+		return alias;
+	}
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 	public LinkedList<Movimiento> getMovimientos() {
 
 		return this.movimientos;
@@ -157,6 +166,23 @@ public class Cuenta {
 	public String toString() {
 		return "Cuenta [saldo=" + saldo + ", numCuenta=" + numCuenta + ", cliente=" + cliente + ", movimientos="
 				+ movimientos + "]";
+	}
+	
+	private String crearAlias() {
+		
+		String[] palabras = Azar.Palabras.getPalabras();
+		
+		String elegida1, elegida2, elegida3;
+		
+
+	  do {
+		  elegida1 = palabras[(int)(Math.random() * palabras.length)];
+		  elegida2 = palabras[(int)(Math.random() * palabras.length)];
+		  elegida3 = palabras[(int)(Math.random() * palabras.length)];
+				  		
+	  } while(elegida1.equals(elegida2) || elegida1.equals(elegida3) || elegida2.equals(elegida3));
+	  
+		return elegida1 + "." + elegida2 + "." + elegida3 + this.numCuenta;
 	}
 	
 }

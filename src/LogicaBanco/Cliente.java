@@ -13,7 +13,6 @@ public class Cliente extends Usuario {
 	private String telefono;
 	private String domicilio;
 	private Cuenta cuenta;
-	private int pin;
 	
 	public Cliente() {
 		super();
@@ -147,6 +146,7 @@ public class Cliente extends Usuario {
 					null, 
 					"Hola " + this.getNombre() + "\n" +
 					"Saldo actual: $" + saldo + "\n\n" +
+					"Alias: " + this.getCuenta().getAlias() + "\n\n" +
 					"Seleccione una opción:",
 					"Menu cliente",
 					0,
@@ -163,9 +163,9 @@ public class Cliente extends Usuario {
 	                    break;
 				case 1:
 					// Transferir dinero
-					 int numDestino = Validaciones.ValidarInt("Ingrese número de cuenta destino:");
+					 String aliasDestino = Validaciones.ValidarString("Ingrese alias de destino:");
 	                    Cuenta destino = Cuenta.getCuentas().stream()
-	                            .filter(c -> c.getNumCuenta() == numDestino)
+	                            .filter(c -> c.getAlias().equals(aliasDestino))
 	                            .findFirst().orElse(null);
 	                    if (destino != null) {
 	                    	
@@ -207,16 +207,22 @@ public class Cliente extends Usuario {
 					break;
 					
 				case 4:
-					int confirmar = JOptionPane.showConfirmDialog(
+					String[] opciones = {"Si", "No"};
+					
+					int confirmar = JOptionPane.showOptionDialog(
 					        null,
 					        "¿Está seguro que desea cerrar sesión?",
 					        "Confirmar cierre de sesión",
-					        JOptionPane.YES_NO_OPTION
+					        0,
+					        JOptionPane.QUESTION_MESSAGE,
+					        null,
+					        opciones,
+					        opciones[0]
 					    );
 
-					    if (confirmar == JOptionPane.YES_OPTION) {
+					    if (confirmar == 0) {
 					        JOptionPane.showMessageDialog(null, "Sesión cerrada. Volviendo al menú principal.");
-					        continuar = false; // Sale del menú del usuario, vuelve al Main
+					        continuar = false;
 					    }
 					    break;
 			}

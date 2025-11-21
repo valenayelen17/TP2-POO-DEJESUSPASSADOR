@@ -2,9 +2,6 @@ package Banco;
 
 import LogicaBanco.Usuario;
 import LogicaBanco.Cliente;
-import LogicaBanco.Cuenta;
-import LogicaBanco.Empleado;
-import LogicaBanco.Rol;
 
 import javax.swing.JOptionPane;
 
@@ -36,7 +33,7 @@ public class Main {
 				case 1:
 				    Usuario usuario = Usuario.iniciarSesion();
 				    if (usuario != null) {
-				        usuario.menu(); // el usuario cierra sesión aquí, vuelve al menú principal
+				        usuario.menu();
 				    }
 				    break;
 				case 2:

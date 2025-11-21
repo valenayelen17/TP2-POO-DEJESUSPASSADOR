@@ -1,13 +1,12 @@
 package LogicaBanco;
 
-import java.util.Iterator;
+
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
 public class Empleado extends Usuario{
 	
-	private String sector;
 	private String nombre;
 	private String apellido;
 	private LinkedList<Cliente> clientes = new LinkedList<Cliente>();
@@ -101,6 +100,8 @@ public class Empleado extends Usuario{
 		                    Double.compare(a.getSaldo(), b.getSaldo()));
 		            break;
 		    }
+		    
+		    String texto = "\"LISTA DE CUENTAS:\\n\\n\"";
 
 		    StringBuilder sb = new StringBuilder("LISTA DE CUENTAS:\n\n");
 		    for (Cuenta c : lista) {
@@ -152,14 +153,15 @@ public class Empleado extends Usuario{
 	                        break;
 	                    }
 
-	                    StringBuilder sb = new StringBuilder("PRÉSTAMOS PENDIENTES:\n\n");
+	                    String texto = "PRÉSTAMOS PENDIENTES:\n\n";
+	                    
 	                    int i = 1;
 	                    for (Prestamo p : prestamosPendientes) {
-	                        sb.append(i).append(". ").append(p.toString()).append("\n");
+	                        texto += i + ". " + p.toString() + "\n";
 	                        i++;
 	                    }
 
-	                    JOptionPane.showMessageDialog(null, sb.toString());
+	                    JOptionPane.showMessageDialog(null, texto);
 
 	                    int seleccionar = Validaciones.ValidarInt("Ingrese el número del préstamo a aprobar/rechazar (0 para salir):");
 	                    if (seleccionar <= 0 || seleccionar > prestamosPendientes.size()) break;
@@ -172,12 +174,10 @@ public class Empleado extends Usuario{
 
 	                    if (opcionAprobar == JOptionPane.YES_OPTION) {
 	                        p.setAprobado(true);
-	                        // acreditar al saldo del cliente
 	                        double nuevoSaldo = p.getCliente().getCuenta().getSaldo() + p.getMonto();
 	                        nuevoSaldo = Math.round(nuevoSaldo * 100.0) / 100.0;
 	                        p.getCliente().getCuenta().setSaldo(nuevoSaldo);
 
-	                        // registrar movimiento en la cuenta del cliente
 	                        Movimiento movimientoPrestamo = new Movimiento(p.getCliente().getCuenta(), p.getMonto(), "Préstamo");
 	                        p.getCliente().getCuenta().getMovimientos().add(movimientoPrestamo);
 
@@ -186,14 +186,12 @@ public class Empleado extends Usuario{
 	                        JOptionPane.showMessageDialog(null, "Préstamo rechazado.");
 	                    }
 
-	                    // eliminar de la lista de pendientes
 	                    prestamosPendientes.remove(p);
 	                    break;
 				case 4:
 					// Eliminar cuenta
 					 JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
 
-					    // Ahora sí pedir el número de cuenta
 					    int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
 
 					    Cuenta eliminar = Cuenta.getCuentas().stream()
@@ -209,16 +207,22 @@ public class Empleado extends Usuario{
 					    break;
 				case 5:
 					// Salir
-					int confirmar = JOptionPane.showConfirmDialog(
+					String[] opciones = {"Si", "No"};
+					
+					int confirmar = JOptionPane.showOptionDialog(
 					        null,
 					        "¿Está seguro que desea cerrar sesión?",
 					        "Confirmar cierre de sesión",
-					        JOptionPane.YES_NO_OPTION
+					        0,
+					        JOptionPane.QUESTION_MESSAGE,
+					        null,
+					        opciones,
+					        opciones[0]
 					    );
 
-					    if (confirmar == JOptionPane.YES_OPTION) {
+					    if (confirmar == 0) {
 					        JOptionPane.showMessageDialog(null, "Sesión cerrada. Volviendo al menú principal.");
-					        continuar = false; // Sale del menú del usuario, vuelve al Main
+					        continuar = false;
 					    }
 					    break;
 			}

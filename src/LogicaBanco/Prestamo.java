@@ -4,7 +4,6 @@ public class Prestamo {
     private Cliente cliente;
     private double monto;
     private boolean aprobado;
-    private Movimiento movimiento;
 
     public Prestamo(Cliente cliente, double monto) {
         this.cliente = cliente;

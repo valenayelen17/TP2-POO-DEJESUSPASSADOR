@@ -2,7 +2,6 @@ package LogicaBanco;
 
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public abstract class Usuario {
@@ -80,8 +79,7 @@ public abstract class Usuario {
     }
     
     public static void agregarUsuariosPrueba() {
-    	
- 
+
     	Cliente usuario1 = new Cliente();
 		usuario1.setNombre("Juan");
 		usuario1.setApellido("Carlos");
@@ -95,7 +93,6 @@ public abstract class Usuario {
         usuario1.setCuenta(new Cuenta(usuario1, 1000));
 		usuarios.add(usuario1);
 
-        
         Empleado usuario2 = new Empleado();
         usuario2.setNombre("María");
         usuario2.setApellido("García");
