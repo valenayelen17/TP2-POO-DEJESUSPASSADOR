@@ -1,9 +1,6 @@
 package LogicaBanco;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 
 public class Movimiento {
 	private Cuenta cuenta;
@@ -17,7 +14,7 @@ public class Movimiento {
 		this.fecha = LocalDateTime.now();
 		this.monto = monto;
 		this.tipo = tipo;
-		this.estado = "Pendiente";
+		this.estado = "Finalizado";
 		
 	}
 	
@@ -26,8 +23,20 @@ public class Movimiento {
 	}
 	
 	public String getFechaString() {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	    return fecha.format(formatter);
+		int dia = fecha.getDayOfMonth();
+		int mes = fecha.getMonthValue();
+		int anio = fecha.getYear();
+		int hora = fecha.getHour();
+		int minuto = fecha.getMinute();
+		int segundo = fecha.getSecond();
+		
+		String diaStr = dia < 10 ? "0" + dia : "" + dia;
+		String mesStr = mes < 10 ? "0" + mes : "" + mes;
+		String horaStr = hora < 10 ? "0" + hora : "" + hora;
+		String minutoStr = minuto < 10 ? "0" + minuto : "" + minuto;
+		String segundoStr = segundo < 10 ? "0" + segundo : "" + segundo;
+		
+		return diaStr + "/" + mesStr + "/" + anio + " " + horaStr + ":" + minutoStr + ":" + segundoStr;
 	}
 
 	

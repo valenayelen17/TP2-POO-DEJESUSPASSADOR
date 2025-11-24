@@ -3,8 +3,6 @@ package LogicaBanco;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
-
 public class Cuenta {
 	private static LinkedList<Cuenta> cuentas = new LinkedList<Cuenta>();
 	private double saldo;

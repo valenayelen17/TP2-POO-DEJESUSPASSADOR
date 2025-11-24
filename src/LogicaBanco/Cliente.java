@@ -193,7 +193,7 @@ public class Cliente extends Usuario {
 
 				    // Crear préstamo
 				    Prestamo prestamo = new Prestamo(this, montoPrestamo);
-				    this.getCuenta().getMovimientos().add(new Movimiento(this.getCuenta(), montoPrestamo, "Préstamo")); // opcional para registro de movimiento inicial
+				    this.getCuenta().getMovimientos().add(new Movimiento(this.getCuenta(), montoPrestamo, "Préstamo solicitado"));
 				    Empleado.agregarPrestamo(prestamo);
 
 				    JOptionPane.showMessageDialog(null, "Solicitud de préstamo enviada. Queda pendiente de aprobación.");
@@ -205,8 +205,13 @@ public class Cliente extends Usuario {
 					JOptionPane.showMessageDialog(null, this.getCuenta().getMovimientosString());
 					
 					break;
-					
+				
 				case 4:
+					// Inversiones
+					Inversion.menuInversion(this);
+					break;
+					
+				case 5:
 					String[] opciones = {"Si", "No"};
 					
 					int confirmar = JOptionPane.showOptionDialog(

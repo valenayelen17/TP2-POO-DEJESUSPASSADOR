@@ -165,12 +165,20 @@ public class Empleado extends Usuario{
 	                    if (seleccionar <= 0 || seleccionar > prestamosPendientes.size()) break;
 
 	                    Prestamo p = prestamosPendientes.get(seleccionar - 1);
-	                    int opcionAprobar = JOptionPane.showConfirmDialog(null, 
-	                        "¿Desea aprobar el préstamo de $" + String.format("%.2f", p.getMonto()) + 
-	                        " para " + p.getCliente().getNombre() + "?", 
-	                        "Aprobar préstamo", JOptionPane.YES_NO_OPTION);
+						String[] opcionesAprobar = {"Si", "No"};
 
-	                    if (opcionAprobar == JOptionPane.YES_OPTION) {
+	                    int opcionAprobar = JOptionPane.showOptionDialog(null, 
+	                        "¿Desea aprobar el préstamo de $" + 
+	                        String.format("%.2f", p.getMonto()) + 
+	                        " para " + p.getCliente().getNombre() + "?", 
+	                        "Aprobar préstamo",
+	                        0,
+	                        JOptionPane.QUESTION_MESSAGE,
+	                        null,
+	                        opcionesAprobar,
+	                        opcionesAprobar[0]);
+
+	                    if (opcionAprobar == 0) {
 	                        p.setAprobado(true);
 	                        double nuevoSaldo = p.getCliente().getCuenta().getSaldo() + p.getMonto();
 	                        nuevoSaldo = Math.round(nuevoSaldo * 100.0) / 100.0;
@@ -188,21 +196,22 @@ public class Empleado extends Usuario{
 	                    break;
 				case 4:
 					// Eliminar cuenta
-					 JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
+					JOptionPane.showMessageDialog(null, Cuenta.getCuentasString());
 
-					    int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
+					int numEliminar = Validaciones.ValidarInt("Ingrese número de cuenta a eliminar:");
 
-					    Cuenta eliminar = Cuenta.getCuentas().stream()
-					            .filter(c -> c.getNumCuenta() == numEliminar)
-					            .findFirst().orElse(null);
+					Cuenta eliminar = Cuenta.getCuentas().stream()
+					        .filter(c -> c.getNumCuenta() == numEliminar)
+					        .findFirst().orElse(null);
 
-					    if (eliminar != null) {
-					        Cuenta.getCuentas().remove(eliminar);
-					        JOptionPane.showMessageDialog(null, "Cuenta eliminada.");
-					    } else {
-					        JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
-					    }
-					    break;
+					if (eliminar != null) {
+					    Cuenta.getCuentas().remove(eliminar);
+					    JOptionPane.showMessageDialog(null, "Cuenta eliminada.");
+					} else {
+					    JOptionPane.showMessageDialog(null, "Cuenta no encontrada.");
+					}
+
+					break;
 				case 5:
 					// Salir
 					String[] opciones = {"Si", "No"};
