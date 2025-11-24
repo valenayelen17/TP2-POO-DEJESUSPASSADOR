@@ -101,16 +101,14 @@ public class Empleado extends Usuario{
 		            break;
 		    }
 		    
-		    String texto = "\"LISTA DE CUENTAS:\\n\\n\"";
+		    String texto = "LISTA DE CUENTAS:\n\n";
 
-		    StringBuilder sb = new StringBuilder("LISTA DE CUENTAS:\n\n");
 		    for (Cuenta c : lista) {
-		        sb.append(c.toString()).append("\n");
+		        texto += c.toString() + "\n";
 		    }
 
-		    JOptionPane.showMessageDialog(null, sb.toString());
-		}
-
+		    JOptionPane.showMessageDialog(null, texto);
+	 }
 
 
 	@Override
